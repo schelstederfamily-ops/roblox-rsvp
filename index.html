@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox RSVP</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 350px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
+
+#message {
+    margin-top: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎮 Roblox Game RSVP</h1>
+
+    <form id="rsvpForm">
+        <input type="text" id="username" placeholder="Roblox Username" required>
+
+        <select id="attendance" required>
+            <option value="">Will you attend?</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+
+        <input type="number" id="friends" min="0" value="0" placeholder="Friends Joining">
+
+        <button type="submit">Submit RSVP</button>
+    </form>
+
+    <div id="message"></div>
+</div>
+
+<script>
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbwNd2cd9y5PhUJNpdFvtbufVCJV0vULaMY3tiXbE-5d4Wvx_tOHeZb3d7W2wLi2QQuQJg/exec";
+
+document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+        username: document.getElementById("username").value,
+        attendance: document.getElementById("attendance").value,
+        friends: document.getElementById("friends").value
+    };
+
+    try {
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(data)
+        });
+
+        document.getElementById("message").textContent =
+            "✅ RSVP submitted successfully!";
+        document.getElementById("rsvpForm").reset();
+
+    } catch (error) {
+        document.getElementById("message").textContent =
+            "❌ Error submitting RSVP.";
+        console.error(error);
+    }
+});
+</script>
+
+</body>
+</html>
