@@ -76,14 +76,21 @@ document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
     };
 
     try {
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify(data)
-        });
+       const res = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(data)
+});
 
-        document.getElementById("message").textContent =
-            "✅ RSVP submitted successfully!";
-        document.getElementById("rsvpForm").reset();
+const result = await res.json();
+
+document.getElementById("message").innerHTML =
+    result.success
+    ? "✅ RSVP submitted!"
+    : "⚠️ " + result.message;
+
+if (result.success) {
+    document.getElementById("rsvpForm").reset();
+}
 
     } catch (error) {
         document.getElementById("message").textContent =
